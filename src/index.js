@@ -28,12 +28,21 @@ app.get('/listaRecados', (request, response) => {
 //CRIA LISTA DE RECADOS
 app.post('/listaRecados', (request, response) => {
     const body = request.body
+
     const recado = {
         id: geraIdRecado++,
         titulo: body.titulo,
         descricao: body.descricao
     }
+    if (body.titulo == undefined) {
+        return response.json("Digite um titulo!")
+    }
 
+    if (body.descricao == undefined) {
+        return response.json("Digite uma descrição!")
+    }
+
+   
     listaRecados.push(recado)
     console.log(body);
     return response.json("Recado cadastrado com sucesso!!")
@@ -70,10 +79,11 @@ app.delete('/listaRecados/:id', (request, response) => {
     const apagaIndiceListaRecados = listaRecados.findIndex((recado) => {
         console.log(recado);
         return recado.id === Number(params.id)
-
     })
+    if (apagaIndiceListaRecados == -1) {
+        return response.json("Recado não encontrado!")
+    }
 
-    console.log(params.id + "paramid");
     console.log(apagaIndiceListaRecados);
 
     delete listaRecados[apagaIndiceListaRecados]
@@ -99,6 +109,26 @@ app.get('/usuario:nome?', (request, response) => {
 //CRIA USUARIO
 app.post('/usuario', (request, response) => {
     const body = request.body
+
+    // const existeEmail = usuarios.find(usuario => {
+    //     return usuario.email === body.email
+    // })
+
+    // if(existeEmail) {
+    //     return response.json("E-mail já cadastrado!!")
+    // }
+
+    if (body.nome == undefined) {
+        return response.json("Digite um nome!")
+    }
+
+    if (body.email == undefined) {
+        return response.json("Digite um email!")
+    }
+
+    if (body.senha == undefined) {
+        return response.json("Digite uma senha")
+    }
 
     const usuario = {
         id: geraIdUsuario++,
