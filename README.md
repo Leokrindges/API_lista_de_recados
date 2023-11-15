@@ -39,7 +39,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
-| `id` | `number` | **Opcional**. id do usuario para filtragem
+| `id` | `String` | **Obrigatório**. id do usuario para filtragem
 
 
 
