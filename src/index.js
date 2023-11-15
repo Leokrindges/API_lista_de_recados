@@ -25,7 +25,7 @@ let verifyJwt = function (req, res, next) {
             return res.status(403).json("Access token invalido");
         }
 
-        req.user = user;
+        req.user = id ;
 
         next();
     });
@@ -269,7 +269,7 @@ app.post('/usuario/login', async (request, response) => {
         return response.status(401).json("Credenciais invalidas!")
     }
 
-    const accessToken = jwt.sign({ username: existeEmail.nome },
+    const accessToken = jwt.sign({ idUsuario: body.id},
         "growdev", { expiresIn: "1800s", }
     );
     //caso de tudo certo na validacão envia o token
