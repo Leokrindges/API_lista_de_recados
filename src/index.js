@@ -10,7 +10,7 @@ import bcrypt from "bcrypt";
 //biblioteca para criar token e deixar o usuario logado mais tempo
 import jwt from "jsonwebtoken";
 
-//o express usado acima é para criar uma aplcação, criar um servidor no back-end
+//o express usado acima é para criar uma aplicação, criar um servidor no back-end
 const app = express();
 
 //app.user é para aceitar requisições com json
@@ -74,7 +74,7 @@ const usuarios = [
 
 ]
 
-//configuro a rota; '/' é a mesma coisa que http://api.com, é como se fosse a toda principal da api
+//configuro a rota; '/' é a mesma coisa que http://api.com, é como se fosse a roda principal da api
 //request contem informações da requisição que o front-end faz pro back-end
 //response contem informações da resposta que o back-end faz pro front-end 
 app.get('/', (request, response) => {
@@ -86,8 +86,8 @@ app.get('/usuario', (request, response) => {
     return response.json(usuarios)
 })
 
-//BUSCA USUARIOS E SEUS RECADOS PELO ID
-app.get('/usuario/recados/:id', (request, response) => {
+//BUSCA USUARIOS E SEUS RECADOS PELO ID DO USUARIO
+app.get('/usuario/:id/recados/', (request, response) => {
     const params = request.params
 
 
@@ -105,7 +105,7 @@ app.get('/usuario/recados/:id', (request, response) => {
 
 
 //CRIAR RECADO
-app.post('/usuario/recado/:id', (request, response) => {
+app.post('/usuario/:id/recado/', (request, response) => {
     const body = request.body
     const params = request.params.id
 
@@ -117,11 +117,11 @@ app.post('/usuario/recado/:id', (request, response) => {
         return response.status(400).json("Usuario não encontrado")
     }
 
-    if (body.titulo == undefined) {
+    if (!body.titulo) {
         return response.status(400).json("Titulo não informado!")
     }
 
-    if (body.descricao == undefined) {
+    if (!body.descricao) {
         return response.status(400).json("Descrição não informada!")
     }
 
@@ -137,7 +137,7 @@ app.post('/usuario/recado/:id', (request, response) => {
 })
 
 //ATUALIZA RECADOS
-app.put('/usuario/recado/:idUsuario/:idRecado', (request, response) => {
+app.put('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
     const body = request.body
     const idUsuario = request.params.idUsuario
     const idRecado = request.params.idRecado
@@ -170,7 +170,7 @@ app.put('/usuario/recado/:idUsuario/:idRecado', (request, response) => {
 })
 
 //DELETA RECADO
-app.delete('/usuario/recado/:idUsuario/:idRecado', (request, response) => {
+app.delete('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
     const body = request.body
     const idUsuario = request.params.idUsuario
     const idRecado = request.params.idRecado
@@ -206,15 +206,15 @@ app.delete('/usuario/recado/:idUsuario/:idRecado', (request, response) => {
 app.post('/usuario', async (request, response) => {
     const body = request.body
 
-    if (body.nome == undefined) {
+    if (!body.nome) {
         return response.status(400).json("Nome não informado!")
     }
 
-    if (body.email == undefined) {
+    if (!body.email) {
         return response.status(400).json("E-mail não informado!")
     }
 
-    if (body.senha == undefined) {
+    if (!body.senha) {
         return response.status(400).json("Senha não informada!")
     }
 
