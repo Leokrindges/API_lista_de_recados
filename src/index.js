@@ -19,13 +19,13 @@ app.use(express.json());
 let verifyJwt = function (req, res, next) {
     const body = req.body;
 
-    jwt.verify(body.accessToken, "growdev", (err, user) => {
+    jwt.verify(body.accessToken, "growdev", (err, idUsuario) => {
 
         if (err) {
             return res.status(403).json("Access token invalido");
         }
 
-        req.user = id ;
+        req.user = idUsuario ;
 
         next();
     });
