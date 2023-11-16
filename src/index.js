@@ -25,7 +25,7 @@ let verifyJwt = function (req, res, next) {
             return res.status(403).json("Access token invalido");
         }
 
-        req.user = idUsuario ;
+        req.idUser = idUsuario.idUser;
 
         next();
     });
@@ -88,33 +88,35 @@ app.get('/usuario', (request, response) => {
 
 //BUSCA USUARIOS E SEUS RECADOS PELO ID DO USUARIO
 app.get('/usuario/:id/recados/', (request, response) => {
-    const params = request.params
+    const params = request.params.id
 
 
     const pegaUsuariosPeloIndice = usuarios.findIndex((usuario) => {
-        return usuario.id == params.id
+        return usuario.id == params
     })
 
-    if(pegaUsuariosPeloIndice === -1) {
+    if (pegaUsuariosPeloIndice === -1) {
         return response.status(400).json("Usuario não encontrado")
     }
-    
+
     return response.json(usuarios[pegaUsuariosPeloIndice]);
 
 })
 
-
 //CRIAR RECADO
-app.post('/usuario/:id/recado/', (request, response) => {
+app.post('/usuario/recados/', verifyJwt, (request, response) => {
     const body = request.body
-    const params = request.params.id
+    const idAutenticado = request.idUser
+    console.log(idAutenticado);
+
 
     const pegaIndice = usuarios.findIndex(usuario => {
-        return params === usuario.id
+        console.log(usuario.id);
+        return idAutenticado === usuario.id
     })
 
     if (pegaIndice == -1) {
-        return response.status(400).json("Usuario não encontrado")
+        return response.status(401).json("Usuario não autenticado")
     }
 
     if (!body.titulo) {
@@ -137,21 +139,21 @@ app.post('/usuario/:id/recado/', (request, response) => {
 })
 
 //ATUALIZA RECADOS
-app.put('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
+app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const body = request.body
-    const idUsuario = request.params.idUsuario
-    const idRecado = request.params.idRecado
+    const idAutenticado = request.idUser
+    const idRecados = request.params.idRecado
 
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
-        return usuario.id == idUsuario
+        return usuario.id == idAutenticado
     })
     console.log(pegaIndiceUsuario);
     if (pegaIndiceUsuario === -1) {
-        return response.status(400).json("Usuário inválido")
+        return response.status(401).json("Usuário não autenticado")
     }
 
     const pegaIndiceRecado = usuarios[pegaIndiceUsuario].recados.findIndex(recado => {
-        return recado.id === idRecado
+        return recado.id === idRecados
     })
 
     if (pegaIndiceRecado === -1) {
@@ -159,6 +161,7 @@ app.put('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
     }
 
     const recado = {
+        idRecado: idRecados,
         titulo: body.titulo,
         descricao: body.descricao
     }
@@ -170,17 +173,17 @@ app.put('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
 })
 
 //DELETA RECADO
-app.delete('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
+app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const body = request.body
-    const idUsuario = request.params.idUsuario
+    const idAutenticado = request.idUser
     const idRecado = request.params.idRecado
 
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
-        return usuario.id == idUsuario
+        return usuario.id == idAutenticado
     })
     console.log(pegaIndiceUsuario);
     if (pegaIndiceUsuario === -1) {
-        return response.status(400).json("Usuário inválido")
+        return response.status(401).json("Usuário não autenticado")
     }
 
     const pegaIndiceRecado = usuarios[pegaIndiceUsuario].recados.findIndex(recado => {
@@ -191,15 +194,9 @@ app.delete('/usuario/:idUsuario/recado/:idRecado', (request, response) => {
         return response.status(400).json("Recado inválido")
     }
 
-    const recado = {
-        titulo: body.titulo,
-        descricao: body.descricao
-    }
-
     delete usuarios[pegaIndiceUsuario].recados[pegaIndiceRecado]
     return response.json("Recado deletado com sucesso!!")
 })
-
 
 //CRIA USUARIO
 //async usa porque estamos usando await que é para esperar ate o bcrypt gerar a senha
@@ -234,10 +231,16 @@ app.post('/usuario', async (request, response) => {
         id: randomUUID(),
         nome: body.nome,
         email: body.email,
-        senha: hashedSenha
+        senha: hashedSenha,
+        recados: [
+            {
+                id: randomUUID(),
+                titulo: body.recados[0].titulo,
+                descricao: body.recados[0].descricao
+            }
+        ]
     }
     usuarios.push(usuario)
-    console.log(body);
     return response.json("Usuario cadastrado com sucesso!!")
 })
 
@@ -269,7 +272,7 @@ app.post('/usuario/login', async (request, response) => {
         return response.status(401).json("Credenciais invalidas!")
     }
 
-    const accessToken = jwt.sign({ idUsuario: body.id},
+    const accessToken = jwt.sign({ idUser: existeEmail.id },
         "growdev", { expiresIn: "1800s", }
     );
     //caso de tudo certo na validacão envia o token
