@@ -35,7 +35,7 @@ Além de criar e fazer o login de usuários.
 
 ```http
   GET /usuario/:id/recados/
-  
+
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -63,7 +63,7 @@ Além de criar e fazer o login de usuários.
 #### Atualiza recado existente com base no ID do usuario e ID do recado fornecido na URL.
 
 ```http
-  PUT /usuario/recado/:idRecado
+  PUT /usuario/recados/:idRecado
 ```
 
 | Parâmetro   | Tipo               | Descrição                                   |
@@ -76,7 +76,7 @@ Além de criar e fazer o login de usuários.
 
 ### Exclui um recado com base no ID do recado fornecido na URL.
 ```http
-  DELETE /usuario/recado/:idRecado
+  DELETE /usuario/recados/:idRecado
 ```
 
 | Parâmetro   | Tipo       | Descrição                                   |
