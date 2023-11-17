@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 
 //biblioteca para criar token e deixar o usuario logado mais tempo
 import jwt from "jsonwebtoken";
+import { log } from 'node:console';
 
 //o express usado acima é para criar uma aplicação, criar um servidor no back-end
 const app = express();
@@ -16,7 +17,7 @@ const app = express();
 //app.user é para aceitar requisições com json
 app.use(express.json());
 
-let verifyJwt = function (req, res, next) {
+const verifyJwt = function (req, res, next) {
     const body = req.body;
 
     jwt.verify(body.accessToken, "growdev", (err, idUsuario) => {
@@ -24,8 +25,7 @@ let verifyJwt = function (req, res, next) {
         if (err) {
             return res.status(403).json("Access token invalido");
         }
-
-        req.idUser = idUsuario.idUser;
+        req.user = idUsuario;
 
         next();
     });
@@ -82,6 +82,7 @@ app.get('/', (request, response) => {
 });
 
 //EXIBE USUARIOS E SEUS RECADOS
+//essa rota eu sei que teria que por verificação de acesso, mas para testar todos os usuarios eu deixei ela sem verificação de autenticidade
 app.get('/usuario', (request, response) => {
     return response.json(usuarios)
 })
@@ -106,19 +107,14 @@ app.get('/usuario/:id/recados/', (request, response) => {
 //CRIAR RECADO
 app.post('/usuario/recados/', verifyJwt, (request, response) => {
     const body = request.body
-    const idAutenticado = request.idUser
-    console.log(idAutenticado);
-
+    const idAutenticado = request.user.usuarioId
 
     const pegaIndice = usuarios.findIndex(usuario => {
-        console.log(usuario.id);
+        console.log(idAutenticado);
         return idAutenticado === usuario.id
     })
 
-    if (pegaIndice == -1) {
-        return response.status(401).json("Usuario não autenticado")
-    }
-
+    
     if (!body.titulo) {
         return response.status(400).json("Titulo não informado!")
     }
@@ -128,7 +124,7 @@ app.post('/usuario/recados/', verifyJwt, (request, response) => {
     }
 
     const recado = {
-        idRecado: randomUUID(),
+        id: randomUUID(),
         titulo: body.titulo,
         descricao: body.descricao
     }
@@ -141,7 +137,8 @@ app.post('/usuario/recados/', verifyJwt, (request, response) => {
 //ATUALIZA RECADOS
 app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const body = request.body
-    const idAutenticado = request.idUser
+    //pega os dados que voltar do midlleware
+    const idAutenticado = request.user.usuarioId
     const idRecados = request.params.idRecado
 
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
@@ -175,7 +172,7 @@ app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
 //DELETA RECADO
 app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const body = request.body
-    const idAutenticado = request.idUser
+    const idAutenticado = request.user.usuarioId
     const idRecado = request.params.idRecado
 
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
@@ -193,8 +190,10 @@ app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     if (pegaIndiceRecado === -1) {
         return response.status(400).json("Recado inválido")
     }
+    const recadosUsuario = usuarios[pegaIndiceUsuario].recados
 
-    delete usuarios[pegaIndiceUsuario].recados[pegaIndiceRecado]
+    recadosUsuario.splice([pegaIndiceRecado, 1])
+   
     return response.json("Recado deletado com sucesso!!")
 })
 
@@ -232,13 +231,7 @@ app.post('/usuario', async (request, response) => {
         nome: body.nome,
         email: body.email,
         senha: hashedSenha,
-        recados: [
-            {
-                id: randomUUID(),
-                titulo: body.recados[0].titulo,
-                descricao: body.recados[0].descricao
-            }
-        ]
+        recados: []
     }
     usuarios.push(usuario)
     return response.json("Usuario cadastrado com sucesso!!")
@@ -272,7 +265,7 @@ app.post('/usuario/login', async (request, response) => {
         return response.status(401).json("Credenciais invalidas!")
     }
 
-    const accessToken = jwt.sign({ idUser: existeEmail.id },
+    const accessToken = jwt.sign({ usuarioId: existeEmail.id },
         "growdev", { expiresIn: "1800s", }
     );
     //caso de tudo certo na validacão envia o token
