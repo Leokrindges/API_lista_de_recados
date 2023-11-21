@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 //pega bliblioteca do 'express' e importa a funcionalidade chamada express
-import express, { request, response } from 'express';
+import express from 'express';
 
 //importação do bcrypt para criar senhas com caracteres aleatórios
 //comando para instalar yarn add bcrypt
