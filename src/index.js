@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from 'crypto';
 
 //pega bliblioteca do 'express' e importa a funcionalidade chamada express
 import express from 'express';
