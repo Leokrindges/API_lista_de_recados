@@ -110,9 +110,11 @@ app.post('/usuario/recados/', verifyJwt, (request, response) => {
     const idAutenticado = request.user.usuarioId
 
     const pegaIndice = usuarios.findIndex(usuario => {
-        console.log(idAutenticado);
         return idAutenticado === usuario.id
     })
+    if (pegaIndice === -1) {
+        return response.status(401).json("Usuário não autenticado")
+    }
 
     
     if (!body.titulo) {
@@ -144,7 +146,6 @@ app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
         return usuario.id == idAutenticado
     })
-    console.log(pegaIndiceUsuario);
     if (pegaIndiceUsuario === -1) {
         return response.status(401).json("Usuário não autenticado")
     }
@@ -158,7 +159,7 @@ app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     }
 
     const recado = {
-        idRecado: idRecados,
+        id: idRecados,
         titulo: body.titulo,
         descricao: body.descricao
     }
@@ -171,14 +172,13 @@ app.put('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
 
 //DELETA RECADO
 app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
-    const body = request.body
     const idAutenticado = request.user.usuarioId
     const idRecado = request.params.idRecado
 
     const pegaIndiceUsuario = usuarios.findIndex(usuario => {
         return usuario.id == idAutenticado
     })
-    console.log(pegaIndiceUsuario);
+
     if (pegaIndiceUsuario === -1) {
         return response.status(401).json("Usuário não autenticado")
     }
@@ -192,7 +192,7 @@ app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     }
     const recadosUsuario = usuarios[pegaIndiceUsuario].recados
 
-    recadosUsuario.splice([pegaIndiceRecado, 1])
+    recadosUsuario.splice(pegaIndiceRecado, 1)
    
     return response.json("Recado deletado com sucesso!!")
 })
