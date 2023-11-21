@@ -9,7 +9,6 @@ import bcrypt from "bcrypt";
 
 //biblioteca para criar token e deixar o usuario logado mais tempo
 import jwt from "jsonwebtoken";
-import { log } from 'node:console';
 
 //o express usado acima é para criar uma aplicação, criar um servidor no back-end
 const app = express();
