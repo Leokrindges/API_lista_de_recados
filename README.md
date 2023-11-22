@@ -35,7 +35,7 @@ Além de criar e fazer o login de usuários.
 
 ```http
   GET /usuario/:id/recados/
-
+```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
