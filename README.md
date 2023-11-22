@@ -52,7 +52,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo               | Descrição                                   |
 | :---------- | :----------------- | :------------------------------------------ |
-| `id`        | `string`           | **Obrigatório**. id do usuario |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
 | `Recados`   | `Array de objetos` | **Obrigatório**. lista de com recados |
 | `Titulo`       | `String`           | **Obrigatório**. titulo do recado |
 | `Descrição `      | `string`           | **Obrigatório**. descrição do recado |
@@ -68,6 +68,8 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo               | Descrição                                   |
 | :---------- | :----------------- | :------------------------------------------ |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
+| `id`        | `string`           | **Obrigatório**. id do recado |
 | `Recados`   | `Array de objetos` | **Obrigatório**. lista de com recados |
 | `Titulo`       | `String`           | **Obrigatório**. titulo do recado |
 | `Descrição `      | `string`           | **Obrigatório**. descrição do recado |
@@ -81,7 +83,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `idUsuario`      | `String` | **Obrigatório**. id do usuario |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
 | `idRecado`      | `String` | **Obrigatório**. id do recado |
 
 
@@ -93,7 +95,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `ID`      | `String` | **Obrigatório**. id do usuario |
+| `id`      | `String` | **Obrigatório**. id do usuario |
 | `Nome`      | `String` | **Obrigatório**. Nome do usuário |
 | `E-mail`      | `String` | **Obrigatório**. E-mail do usuário |
 | `Senha`      | `String` | **Obrigatório**. Senha do usuário |
