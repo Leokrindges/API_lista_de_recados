@@ -3,7 +3,7 @@
 Clonar o repositório
 
 ```bash
-  git clone [https://github.com/](https://github.com/Leokrindges/API_lista_de_recados)
+  git clone <a href="https://github.com/Leokrindges/API_lista_de_recados"></a>
 ```
 
 Instalar as depêndencias do projeto
