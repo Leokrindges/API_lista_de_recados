@@ -53,7 +53,6 @@ Além de criar e fazer o login de usuários.
 | Parâmetro   | Tipo               | Descrição                                   |
 | :---------- | :----------------- | :------------------------------------------ |
 | `Access token`        | `string`           | **Obrigatório**. token do usuario |
-| `Recados`   | `Array de objetos` | **Obrigatório**. lista de com recados |
 | `Titulo`       | `String`           | **Obrigatório**. titulo do recado |
 | `Descrição `      | `string`           | **Obrigatório**. descrição do recado |
 
