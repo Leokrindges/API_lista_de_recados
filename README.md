@@ -3,7 +3,7 @@
 Clonar o repositório
 
 ```bash
-  git clone [https://github.com/](https://github.com/Leokrindges/API_lista_de_recados)
+  git clone [repositório](https://github.com/Leokrindges/API_lista_de_recados/)
 ```
 
 Instalar as depêndencias do projeto
@@ -35,7 +35,7 @@ Além de criar e fazer o login de usuários.
 
 ```http
   GET /usuario/:id/recados/
-
+```
 
 | Parâmetro   | Tipo       | Descrição                           |
 | :---------- | :--------- | :---------------------------------- |
@@ -52,8 +52,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo               | Descrição                                   |
 | :---------- | :----------------- | :------------------------------------------ |
-| `id`        | `string`           | **Obrigatório**. id do usuario |
-| `Recados`   | `Array de objetos` | **Obrigatório**. lista de com recados |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
 | `Titulo`       | `String`           | **Obrigatório**. titulo do recado |
 | `Descrição `      | `string`           | **Obrigatório**. descrição do recado |
 
@@ -68,6 +67,8 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo               | Descrição                                   |
 | :---------- | :----------------- | :------------------------------------------ |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
+| `id`        | `string`           | **Obrigatório**. id do recado |
 | `Recados`   | `Array de objetos` | **Obrigatório**. lista de com recados |
 | `Titulo`       | `String`           | **Obrigatório**. titulo do recado |
 | `Descrição `      | `string`           | **Obrigatório**. descrição do recado |
@@ -81,7 +82,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `idUsuario`      | `String` | **Obrigatório**. id do usuario |
+| `Access token`        | `string`           | **Obrigatório**. token do usuario |
 | `idRecado`      | `String` | **Obrigatório**. id do recado |
 
 
@@ -93,7 +94,7 @@ Além de criar e fazer o login de usuários.
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `ID`      | `String` | **Obrigatório**. id do usuario |
+| `id`      | `String` | **Obrigatório**. id do usuario |
 | `Nome`      | `String` | **Obrigatório**. Nome do usuário |
 | `E-mail`      | `String` | **Obrigatório**. E-mail do usuário |
 | `Senha`      | `String` | **Obrigatório**. Senha do usuário |
