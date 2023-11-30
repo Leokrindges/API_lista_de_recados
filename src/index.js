@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 //pega bliblioteca do 'express' e importa a funcionalidade chamada express
 import express from 'express';
+import cors from 'cors';
 
 //importação do bcrypt para criar senhas com caracteres aleatórios
 //comando para instalar yarn add bcrypt
@@ -15,6 +16,14 @@ const app = express();
 
 //app.user é para aceitar requisições com json
 app.use(express.json());
+
+app.use(
+    cors({
+      origin: 'http://127.0.0.1:5500',
+      // Allow follow-up middleware to override this CORS for options
+      preflightContinue: true,
+    }),
+  );
 
 const verifyJwt = function (req, res, next) {
     const body = req.body;
@@ -115,7 +124,7 @@ app.post('/usuario/recados/', verifyJwt, (request, response) => {
         return response.status(401).json("Usuário não autenticado")
     }
 
-    
+
     if (!body.titulo) {
         return response.status(400).json("Titulo não informado!")
     }
@@ -192,7 +201,7 @@ app.delete('/usuario/recados/:idRecado', verifyJwt, (request, response) => {
     const recadosUsuario = usuarios[pegaIndiceUsuario].recados
 
     recadosUsuario.splice(pegaIndiceRecado, 1)
-   
+
     return response.json("Recado deletado com sucesso!!")
 })
 
