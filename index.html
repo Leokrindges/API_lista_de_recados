@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <div class="divLogin">
+        <img class="logo" src="assets/logo-login.png" alt="Logo login">
+        <form onsubmit="login(event)" id="login">
+            <label class="labelLogin" for="email">Email:</label>
+            <input class="login" type="email" name="email" id="email" placeholder="email@email.com" required>
+            <label class="labelLogin" for="senha">Senha:</label>
+            <input class="login" type="password" name="senha" id="senha" placeholder="123456" required minlength="6">
+            <button class=" button buttonEntrar" type="submit">Entrar</button>
+            <button class="button buttonCadastrar" type="#">Cadastre-se</button>
+            <div id="loginInvalido">
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="src/script.js"></script>
+</body>
+
+</html>

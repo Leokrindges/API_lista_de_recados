@@ -1,0 +1,65 @@
+body {
+    background-color: #515E74;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.divLogin {
+    background-color: #8B94A4;
+    position: relative;
+    left: 35%;
+    top: 15%;
+    border: 2px solid #8B94A4;
+    border-radius: 20px;
+    height: 430px;
+    width: 400px;
+}
+
+.labelLogin {
+    color: #293140;
+    font-size: 25px;
+    padding-left: 20px;
+    padding-top: 20px;
+    display: block;
+    margin: auto;
+}
+
+.login {
+    border-radius: 8px;
+    font-size: 16px;
+    display: block;
+    width: 350px;
+    height: 30px;
+    margin: auto;
+    padding-left: 8px;
+}
+
+.button {
+    background-color: #515E74;
+    border: 3px solid #1A4082;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    text-align: center;
+    margin-top: 50px;
+    width: 140px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.buttonEntrar {
+    left: 40px;
+}
+
+.buttonCadastrar {
+    left: 210px;
+}
+
+.logo {
+    width: 115px;
+    margin-top: 20px;
+    margin-left: 145px;
+}
