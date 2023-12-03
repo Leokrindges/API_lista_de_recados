@@ -273,12 +273,20 @@ app.post('/usuario/login', async (request, response) => {
         return response.status(401).json("Credenciais invalidas!")
     }
 
-    const accessToken = jwt.sign({ usuarioId: existeEmail.id },
+    const accessToken = jwt.sign({ usuarioId: existeEmail.id,},
         "growdev", { expiresIn: "1800s", }
     );
+
+    const dadosUsuarios = {
+        nome: existeEmail.nome,
+        email: existeEmail.email,
+        senha: existeEmail.senha,
+        accessToken: accessToken
+    }
+  
     //caso de tudo certo na validacão envia o token
     return response.status(201).json({
-        accessToken,
+        dadosUsuarios,
     });
 })
 

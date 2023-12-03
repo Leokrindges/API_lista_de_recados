@@ -1,0 +1,44 @@
+body {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+legend {
+    font-size: 25px;
+    color: #1A4082;
+}
+
+fieldset {
+    width: 450px;
+    height: 215px;
+    border-radius: 10px;
+    border: 3px solid #8B94A4;
+}
+
+label {
+    margin-top: 10px;
+    display: block;
+    font-size: 18px;
+}
+
+input {
+    margin-top: 3px;
+    width: 400px;
+    height: 25px;
+    display: block;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 15px;
+    background-color: #515E74;
+    border: 3px solid #1A4082;
+    font-weight: bold;
+    color: white;
+    width: 140px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 10px;
+}

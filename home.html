@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="style/home.css">
 </head>
+
 <body>
-    <h1>Bem Vindo</h1>
+    <h1>Bem Vindo, <span id="bem_vindo"></span></h1>
+    <form id="formCadastroRecados">
+        <div class="divLogin">
+            <fieldset>
+                <legend>Cadastrar Recados</legend>
+                <label for="titulo">Titulo:</label>
+                <input type="text" name="titulo" id="titulo">
+                <label for="descricao">Descrição</label>
+                <input type="text" name="descricao" id="descricao">
+                <button type="submit">Cadastrar</button>
+                <button type="reset">Limpar</button>
+            </fieldset>
+        </div>
+    </form>
+
+    <script src="src/home.js"></script>
 </body>
+
 </html>

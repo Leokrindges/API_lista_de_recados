@@ -9,15 +9,26 @@ const instance = axios.create({
 
 async function login(event) {
     event.preventDefault()
-    console.log(event);
+
     const email = event.srcElement.email.value
     const senha = event.srcElement.senha.value
-    
+
     try {
-        await instance.post(`/usuario/login`, {
+        console.log(event);
+       const resposta = await instance.post(`/usuario/login`, {
             email,
             senha
         })
+        console.log(resposta);
+        const dadosLogin = {
+            email,
+            senha
+        }          
+        accessToken = resposta.data.dadosUsuarios.accessToken
+        pegaNome = resposta.data.dadosUsuarios.nome
+        localStorage.setItem("accessToken", accessToken)
+        localStorage.setItem("nome", pegaNome)
+
         window.location.href = "./home.html"
 
     } catch (error) {
