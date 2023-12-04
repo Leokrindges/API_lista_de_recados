@@ -21,7 +21,8 @@ body {
     color: #293140;
     font-size: 25px;
     padding-left: 20px;
-    padding-top: 20px;
+    padding-bottom: 3px;
+    padding-top: 13px;
     display: block;
     margin: auto;
 }
@@ -34,11 +35,16 @@ body {
     height: 30px;
     margin: auto;
     padding-left: 8px;
+    border: 1px solid #8B94A4;
+}
+
+.login:hover {
+    border: 3px solid #293140;
 }
 
 .button {
     background-color: #515E74;
-    border: 3px solid #1A4082;
+    border: 3px solid #a6bce0;
     font-weight: bold;
     color: white;
     position: absolute;
@@ -48,6 +54,11 @@ body {
     height: 40px;
     font-size: 15px;
     border-radius: 10px;
+}
+
+.button:hover {
+    background-color: white;
+    color: #1A4082;
 }
 
 .buttonEntrar {

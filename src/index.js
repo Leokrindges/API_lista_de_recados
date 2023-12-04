@@ -274,13 +274,13 @@ app.post('/usuario/login', async (request, response) => {
     }
 
     const accessToken = jwt.sign({ usuarioId: existeEmail.id,},
-        "growdev", { expiresIn: "1800s", }
+        "growdev", { expiresIn: "3600s", }
     );
 
     const dadosUsuarios = {
         nome: existeEmail.nome,
         email: existeEmail.email,
-        senha: existeEmail.senha,
+        id: existeEmail.id,
         accessToken: accessToken
     }
   

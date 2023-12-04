@@ -14,7 +14,7 @@ fieldset {
     width: 450px;
     height: 215px;
     border-radius: 10px;
-    border: 3px solid #8B94A4;
+    border: 3px solid #1A4082;
 }
 
 label {
@@ -29,6 +29,11 @@ input {
     height: 25px;
     display: block;
     border-radius: 4px;
+    border: 1px solid #293140;
+}
+
+input:hover {
+    border: 3px solid #293140;
 }
 
 button {
@@ -41,4 +46,9 @@ button {
     height: 40px;
     font-size: 15px;
     border-radius: 10px;
+}
+
+button:hover {
+    background-color: white;
+    color: #1A4082;
 }
