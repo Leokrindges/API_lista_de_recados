@@ -19,16 +19,16 @@ app.use(express.json());
 
 app.use(
     cors({
-      origin: 'http://127.0.0.1:5500',
-      // Allow follow-up middleware to override this CORS for options
-      preflightContinue: true,
+        origin: 'http://127.0.0.1:5500',
+        // Allow follow-up middleware to override this CORS for options
+        preflightContinue: true,
     }),
-  );
+);
 
 const verifyJwt = function (req, res, next) {
-    const body = req.body;
+    const accessToken = req.get('Authorization');
 
-    jwt.verify(body.accessToken, "growdev", (err, idUsuario) => {
+    jwt.verify(accessToken.split(' ')[1], "growdev", (err, idUsuario) => {
 
         if (err) {
             return res.status(403).json("Access token invalido");
@@ -38,7 +38,6 @@ const verifyJwt = function (req, res, next) {
         next();
     });
 };
-
 const usuarios = [
     {
         id: randomUUID(),
@@ -93,15 +92,14 @@ app.get('/', (request, response) => {
 //essa rota eu sei que teria que por verificação de acesso, mas para testar todos os usuarios eu deixei ela sem verificação de autenticidade
 app.get('/usuario', (request, response) => {
     return response.json(usuarios)
-})
+}) 
 
 //BUSCA USUARIOS E SEUS RECADOS PELO ID DO USUARIO
-app.get('/usuario/:id/recados/', (request, response) => {
-    const params = request.params.id
-
+app.get('/recados/',verifyJwt, (request, response) => {
+    const accessToken = request.user
 
     const pegaUsuariosPeloIndice = usuarios.findIndex((usuario) => {
-        return usuario.id == params
+        return usuario.id == accessToken.usuarioId
     })
 
     if (pegaUsuariosPeloIndice === -1) {
@@ -273,17 +271,15 @@ app.post('/usuario/login', async (request, response) => {
         return response.status(401).json("Credenciais invalidas!")
     }
 
-    const accessToken = jwt.sign({ usuarioId: existeEmail.id,},
+    const accessToken = jwt.sign({ usuarioId: existeEmail.id, },
         "growdev", { expiresIn: "3600s", }
     );
 
     const dadosUsuarios = {
         nome: existeEmail.nome,
-        email: existeEmail.email,
-        id: existeEmail.id,
         accessToken: accessToken
     }
-  
+
     //caso de tudo certo na validacão envia o token
     return response.status(201).json({
         dadosUsuarios,

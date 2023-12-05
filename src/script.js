@@ -25,16 +25,12 @@ async function login(event) {
 
         accessToken = resposta.data.dadosUsuarios.accessToken
         nome = resposta.data.dadosUsuarios.nome
-        id = resposta.data.dadosUsuarios.id
 
-        const dadosLogin = {
-            accessToken,
-            nome,
-            id
-        }
-        localStorage.setItem("dados_login", JSON.stringify(dadosLogin))
+       
+        localStorage.setItem("access_token", accessToken)
+        localStorage.setItem("nome", nome)
 
-        window.location.href = "./home.html"
+        window.location.href = "http://127.0.0.1:5500/home.html"
 
     } catch (error) {
         containerlogin.innerHTML = "Credenciais inválidas!!"

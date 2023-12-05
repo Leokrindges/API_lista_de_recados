@@ -34,7 +34,7 @@ Além de criar e fazer o login de usuários.
 #### Retorna todos os detalhes de um usuario e recado específico com base no ID fornecido na URL.
 
 ```http
-  GET /usuario/:id/recados/
+  GET recados/
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
