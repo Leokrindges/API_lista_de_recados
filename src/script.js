@@ -25,7 +25,6 @@ async function login(event) {
 
         accessToken = resposta.data.dadosUsuarios.accessToken
         nome = resposta.data.dadosUsuarios.nome
-
        
         localStorage.setItem("access_token", accessToken)
         localStorage.setItem("nome", nome)

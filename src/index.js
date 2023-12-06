@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { faker } from '@faker-js/faker';
 
 //pega bliblioteca do 'express' e importa a funcionalidade chamada express
 import express from 'express';
@@ -80,6 +81,33 @@ const usuarios = [
     }
 
 ]
+for (let i = 0; i < 12; i++) {
+    const recado = {
+        id: randomUUID(),
+        titulo: faker.lorem.word(),
+        descricao: faker.lorem.paragraph()
+    }
+
+    usuarios[0].recados.push(recado)
+}
+
+for (let i = 0; i < 100; i++) {
+    const usuario = {
+        id: randomUUID(),
+        nome: faker.person.fullName(),
+        email: faker.internet.email(),
+        senha: "$2a$06$oWaGUzjgm8wGpV8otyteyuuiLM3blA6ul2q.X3X6df33zLStZBwXK",
+        recados: [
+            {
+                id: randomUUID(),
+                titulo: "Passeio bob",
+                descricao: "Levar no parque"
+            }
+        ]
+    }
+
+    usuarios.push(usuario)
+}
 
 //configuro a rota; '/' é a mesma coisa que http://api.com, é como se fosse a roda principal da api
 //request contem informações da requisição que o front-end faz pro back-end
@@ -89,13 +117,33 @@ app.get('/', (request, response) => {
 });
 
 //EXIBE USUARIOS E SEUS RECADOS
-//essa rota eu sei que teria que por verificação de acesso, mas para testar todos os usuarios eu deixei ela sem verificação de autenticidade
-app.get('/usuario', (request, response) => {
-    return response.json(usuarios)
-}) 
+app.get('/usuarios', (request, response) => {
+    const quantiaPorPagina = 10;
+    let pagina = 1;
 
-//BUSCA USUARIOS E SEUS RECADOS PELO ID DO USUARIO
-app.get('/recados/',verifyJwt, (request, response) => {
+    if (request.query.page) {
+        pagina = request.query.page;
+    }
+
+    const usuariosPaginados = usuarios.slice(quantiaPorPagina * (pagina - 1), quantiaPorPagina * pagina)
+
+    const usuariosFormatados = usuariosPaginados.map((usuario) => {
+        return {
+            id: usuario.id,
+            nome: usuario.nome,
+            email: usuario.email,
+            recados: usuario.recados
+        }
+    })
+
+    const quantidadeDePaginas = Math.ceil(usuarios.length / quantiaPorPagina)
+    return response.json({
+        usuarios: usuariosFormatados, quantidadeDePaginas, quantiaPorPagina
+    })
+})
+
+//BUSCA RECADOS DO USUARIO LOGADO
+app.get('/recados/', verifyJwt, (request, response) => {
     const accessToken = request.user
 
     const pegaUsuariosPeloIndice = usuarios.findIndex((usuario) => {
@@ -107,6 +155,33 @@ app.get('/recados/',verifyJwt, (request, response) => {
     }
 
     return response.json(usuarios[pegaUsuariosPeloIndice]);
+
+})
+
+//LISTAGEM RECADOS DO USUARIO LOGADO
+app.get('/recados/listagem/', verifyJwt, (request, response) => {
+    const accessToken = request.user
+    const quantidadeRecadosPorPagina = 4
+    let pagina = 1
+
+    if (request.query.page) {
+        pagina = request.query.page
+    }
+
+    const pegaUsuariosPeloIndice = usuarios.findIndex((usuario) => {
+        return usuario.id == accessToken.usuarioId
+    })
+
+    if (pegaUsuariosPeloIndice === -1) {
+        return response.status(400).json("Usuario não encontrado")
+    }
+
+    const recadosPaginados = usuarios[pegaUsuariosPeloIndice].recados.slice(quantidadeRecadosPorPagina * (pagina - 1), quantidadeRecadosPorPagina * pagina)
+
+    //math.ceil aredenda um valor para mais ou para menos
+    const quantidadeDePaginas = Math.ceil(usuarios[pegaUsuariosPeloIndice].recados.length / quantidadeRecadosPorPagina)
+
+    return response.json({ recados: recadosPaginados, quantidadeDePaginas, quantidadeRecadosPorPagina });
 
 })
 
