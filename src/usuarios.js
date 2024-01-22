@@ -1,5 +1,7 @@
+
 const containerUsuarios = document.getElementById('usuarios')
 const containerBotoes = document.getElementById('botoes')
+const senhasDiferentes = document.getElementById("mensagem")
 let pagina = 1
 let quantidadeDePaginas
 
@@ -7,7 +9,47 @@ const instance = axios.create({
   baseURL: 'http://localhost:8080',
 });
 
-// axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
+
+async function criarUsuario(event) {
+  event.preventDefault()
+
+  senhasDiferentes.innerHTML = ""
+  console.log(event);
+
+  const nome = event.srcElement.nome.value
+  const email = event.srcElement.email.value
+  const senha = event.srcElement.senha.value
+  const confirmarSenha = event.srcElement.confirmar_senha.value
+
+console.log(nome);
+console.log(email);
+console.log(senha);
+console.log(confirmarSenha);
+
+if(senha != confirmarSenha) {
+  senhasDiferentes.innerHTML = `<span>Senhas não são iguais!</span>`
+}
+
+if(!nome || !email || !senha || !confirmarSenha) {
+  senhasDiferentes.innerHTML += `<p>Todos os campos devem ser preenchidos!</p>`
+}
+
+try {
+  const resposta = await instance.post('/usuario', {
+    nome,
+    email,
+    senha,
+    confirmarSenha
+  })
+
+  window.location.href = "http://127.0.0.1:5500/index.html"
+  
+} catch (error) {
+  console.log(error);
+}
+
+
+}
 
 function aumentarPagina() {
   if (pagina !== quantidadeDePaginas) {
@@ -36,7 +78,7 @@ async function carregamentoInicialUsuarios() {
     botaoPaginaEl.innerHTML = i + 1
     botaoPaginaEl.addEventListener('click', () => { selecionarPagina(i + 1) })
 
-    containerBotoes.appendChild(botaoPaginaEl)
+    // containerBotoes.appendChild(botaoPaginaEl)
   }
 }
 
