@@ -10,45 +10,53 @@ const instance = axios.create({
 });
 
 
-async function criarUsuario(event) {
-  event.preventDefault()
+const capturaDados = document.getElementById("criar-usuario")
+capturaDados.addEventListener('submit', async (evento) => {
+  evento.preventDefault()
+
+  const confirmarSenha = evento.target.confirmar_senha.value
+  const nome = evento.target.nome.value
+  const email = evento.target.email.value
+  const senha = evento.target.senha.value
 
   senhasDiferentes.innerHTML = ""
-  console.log(event);
 
-  const nome = event.srcElement.nome.value
-  const email = event.srcElement.email.value
-  const senha = event.srcElement.senha.value
-  const confirmarSenha = event.srcElement.confirmar_senha.value
-
-console.log(nome);
-console.log(email);
-console.log(senha);
-console.log(confirmarSenha);
-
-if(senha != confirmarSenha) {
-  senhasDiferentes.innerHTML = `<span>Senhas não são iguais!</span>`
-}
-
-if(!nome || !email || !senha || !confirmarSenha) {
-  senhasDiferentes.innerHTML += `<p>Todos os campos devem ser preenchidos!</p>`
-}
-
-try {
-  const resposta = await instance.post('/usuario', {
+  const dados = {
     nome,
     email,
     senha,
     confirmarSenha
-  })
+  }
+  await criarUsuario(dados)
 
-  window.location.href = "http://127.0.0.1:5500/index.html"
-  
-} catch (error) {
-  console.log(error);
-}
+})
 
+async function criarUsuario(dados) {
 
+  if (dados.senha != dados.confirmarSenha) {
+    criarAlerta(`<span>Senhas não são iguais!</span>`)
+  }
+
+  if (!dados.nome || !dados.email || !dados.senha || !dados.confirmarSenha) {
+    senhasDiferentes.innerHTML += `<p>Todos os campos devem ser preenchidos!</p>`
+  }
+
+  try {
+    const resposta = await instance.post('/usuario', {
+      nome: dados.nome,
+      email: dados.email,
+      senha: dados.senha
+    })
+
+    window.location.href = "http://127.0.0.1:5500/index.html"
+
+    return true;
+
+  } catch (error) {
+    console.log(error);
+    criarAlerta(`${error.response.data}`)
+    return false
+  }
 }
 
 function aumentarPagina() {
@@ -78,7 +86,6 @@ async function carregamentoInicialUsuarios() {
     botaoPaginaEl.innerHTML = i + 1
     botaoPaginaEl.addEventListener('click', () => { selecionarPagina(i + 1) })
 
-    // containerBotoes.appendChild(botaoPaginaEl)
   }
 }
 
@@ -103,8 +110,23 @@ async function carregarUsuarios() {
     })
   } catch (error) {
     console.log(error)
-    // location.href = 'http://127.0.0.1:5500/login.html'
   }
 }
 
 carregamentoInicialUsuarios()
+
+
+const containerFeedbck = document.getElementById('container-feedback')
+
+function criarAlerta(mensagem, tipo) {
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <div class="alert alert-${tipo} alert-danger alert-dismissible" role="alert">
+       <div>${mensagem}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    `;
+
+  containerFeedbck.append(div)
+
+}
