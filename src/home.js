@@ -3,6 +3,7 @@
 
 const containerRecados = document.getElementById("mostra_recados")
 
+//CONEXÃO DA API COM O FRONT
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
 });
@@ -56,6 +57,7 @@ async function apagarRecado(id) {
 
 }
 
+//CAPTURO OS DADOS DO FORM DE CADASTRO DE RECADOS
 const capturaDados = document.getElementById("formCadastroRecados")
 capturaDados.addEventListener('submit', async (evento) => {
     evento.preventDefault()
@@ -189,6 +191,7 @@ async function carregarRecados() {
 }
 
 
+//CRIO UM ALERT
 const containerFeedbck = document.getElementById('container-feedback')
 
 function criarAlerta(mensagem, tipo) {

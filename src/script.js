@@ -1,8 +1,10 @@
-
+//CONEXÃO DA API COM O FRONT
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
 });
 
+
+//CAPTURO OS DADOS DO FORMULÁRIO DE LOGIN
 const capturaDados = document.getElementById("login")
 capturaDados.addEventListener('submit', async (evento) => {
     evento.preventDefault()
@@ -14,6 +16,7 @@ capturaDados.addEventListener('submit', async (evento) => {
 
 })
 
+//LOGIN
 async function login(email, senha) {
     try {
         const resposta = await instance.post(`/usuario/login`, {
@@ -38,6 +41,8 @@ async function login(email, senha) {
     }
 }
 
+
+//CRIO UM ALERT
 const containerFeedbck = document.getElementById('container-feedback')
 
 function criarAlerta(mensagem, tipo) {

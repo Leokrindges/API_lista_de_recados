@@ -1,15 +1,15 @@
 
 const containerUsuarios = document.getElementById('usuarios')
 const containerBotoes = document.getElementById('botoes')
-const senhasDiferentes = document.getElementById("mensagem")
 let pagina = 1
 let quantidadeDePaginas
 
+//CONEXÃO DA API COM O FRONT
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
 });
 
-
+//CAPTURA FORM DE CRIAÇÃO DE USUÁRIOS
 const capturaDados = document.getElementById("criar-usuario")
 capturaDados.addEventListener('submit', async (evento) => {
   evento.preventDefault()
@@ -31,6 +31,7 @@ capturaDados.addEventListener('submit', async (evento) => {
 
 })
 
+//CRIAR USUARIO
 async function criarUsuario(dados) {
 
   if (dados.senha != dados.confirmarSenha) {
@@ -59,6 +60,9 @@ async function criarUsuario(dados) {
   }
 }
 
+
+//DAQUI PARA BAIXO VAI SER REFATORADO, COLOCADO DENTRO DE UM JS DE PAGINAÇÃO, ASSIM COMO O CARREGAMENTO
+//DOS RECADOS VAI SER REFATORADO DENTRO DO ARQUIVO BUSCA_RECADOS.JS QUE VAI SER CRIADO
 function aumentarPagina() {
   if (pagina !== quantidadeDePaginas) {
     pagina++
@@ -115,7 +119,7 @@ async function carregarUsuarios() {
 
 carregamentoInicialUsuarios()
 
-
+//CRIO UM ALERT
 const containerFeedbck = document.getElementById('container-feedback')
 
 function criarAlerta(mensagem, tipo) {
