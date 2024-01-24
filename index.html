@@ -17,6 +17,9 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary fixed-top">
+            <div class="text-danger position-absolute top-0 start-50 translate-middle mt-5" id="container-feedback">
+                <!-- o conteudo daqui é criado pelo JS -->
+            </div>
             <div class="container-fluid">
                 <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#F4F6F8" class="bi bi-stack ms-3"
                     viewBox="0 0 16 16">
@@ -30,12 +33,11 @@
         </nav>
     </header>
     <main>
-        <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="container d-flex align-items-center vh-100">
             <div class="row justify-content-center vw-100">
                 <div class="col-12 col-md-9 col-lg-7 ">
                     <h1 class="text-secundário">Login</h1>
                     <p class="text-start">Faça login para acessar a plataforma</p>
-
                     <div class="row">
                         <div class="col-12 col-lg-6 mt-2 mt-lg-0">
                             <button type="button" class="btn btn-primary w-100 text-uppercase "><svg
@@ -56,7 +58,7 @@
                     </div>
                     <p class="text-center my-4">Utiliza seu endereço de e-mail para fazer login</p>
 
-                    <form onsubmit="login(event)" id="login">
+                    <form id="login">
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control" name="email" id="email" placeholder="name@mail.com"
                                 required>
@@ -67,13 +69,12 @@
                                 required minlength="6">
                             <label for="senha">Senha</label>
                         </div>
+
+
+
                         <button type="submit" class="btn btn-primary w-100 text-uppercase mt-4">Entrar</button>
-
-                        <div class="text-danger" id="loginInvalido">
-                        </div>
-                        <p class="mt-4" data-bs-target="#register-modal">Ainda não tem conta? <a href="./criar-conta.html">Criar conta</a>
+                        <p class="mt-4">Ainda não tem conta? <a href="./criar-conta.html">Criar conta</a>
                     </form>
-
                 </div>
             </div>
         </div>
