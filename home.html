@@ -16,6 +16,9 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary fixed-top">
+            <div class="text-danger position-absolute top-0 start-50 translate-middle mt-5" id="container-feedback">
+                <!-- o conteudo daqui é criado pelo JS -->
+            </div>
             <div class="container-fluid">
                 <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#F4F6F8" class="bi bi-stack ms-3"
                     viewBox="0 0 16 16">
@@ -57,7 +60,7 @@
                 <div class="col-12 col-md-10 col-lg-8">
                     <fieldset>
                         <legend class="text-center text-uppercase fw-bold">Cadastrar Recados</legend>
-                        <form onsubmit="cadastrarRecado(event)" id="formCadastroRecados">
+                        <form id="formCadastroRecados">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name="titulo" id="titulo" required>
                                 <label for="titulo">Título</label>
@@ -67,11 +70,7 @@
                                 <label for="descricao">Descrição</label>
                             </div>
                             <div class="row justify-content-end">
-                                <div class="col-12 col-md-4">
-                                    <button type="reset"
-                                        class="btn btn-secondary w-100 text-uppercase mt-4">Cancelar</button>
-                                </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-sm-4">
                                     <button type="submit"
                                         class="btn btn-primary w-100 text-uppercase mt-4">Confirmar</button>
                                 </div>
@@ -84,7 +83,7 @@
 
     </main>
 
-
+    <!-- PAGINAÇÃO -->
     <!-- <a href="http://127.0.0.1:5500/usuarios.html">Usuarios paginados</a>
     <a href="http://127.0.0.1:5500/recados.html">Recados paginados</a> -->
 

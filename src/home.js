@@ -1,5 +1,5 @@
 
-colocaNomeNoBemVindo()
+// colocaNomeNoBemVindo()
 
 const containerRecados = document.getElementById("mostra_recados")
 
@@ -8,13 +8,14 @@ const instance = axios.create({
 });
 
 carregarRecados()
+
 //ADICONA NOME NO BEM VINDO
-async function colocaNomeNoBemVindo() {
-    const nomeNoBemVindo = document.getElementById("bem_vindo")
-    nomeNoBemVindo.setAttribute('style', 'color: #1A4082; font-size: 40px')
-    const nomeUsuario = localStorage.getItem("nome")
-    nomeNoBemVindo.innerHTML = nomeUsuario + "!"
-}
+// async function colocaNomeNoBemVindo() {
+//     const nomeNoBemVindo = document.getElementById("bem_vindo")
+//     nomeNoBemVindo.setAttribute('style', 'color: #1A4082; font-size: 40px')
+//     const nomeUsuario = localStorage.getItem("nome")
+//     nomeNoBemVindo.innerHTML = nomeUsuario + "!"
+// }
 
 //ATUALIZA RECADO
 async function atualizarRecado(id) {
@@ -55,29 +56,53 @@ async function apagarRecado(id) {
 
 }
 
-//CADASTRAR RECADO
-async function cadastrarRecado(event) {
-    event.preventDefault()
-    const accessToken = localStorage.getItem("access_token")
-    const titulo = event.srcElement.titulo.value
-    const descricao = event.srcElement.descricao.value
+const capturaDados = document.getElementById("formCadastroRecados")
+capturaDados.addEventListener('submit', async (evento) => {
+    evento.preventDefault()
 
-    console.log(event);
+    const titulo = evento.target.titulo.value
+    const descricao = evento.target.descricao.value
+
+    const dados = {
+        titulo: titulo,
+        descricao: descricao
+    }
+
+    await cadastrarRecado(dados)
+
+    //reseta o form
+    if (cadastrarRecado) {
+        evento.target.reset()
+        criarAlerta("Recado cadastrado com sucesso!!")
+
+    }
+})
+
+//CADASTRAR RECADO
+async function cadastrarRecado(dados) {
+    const accessToken = localStorage.getItem("access_token")
 
     try {
+
+        if (!dados.titulo || !dados.descricao) {
+            criarAlerta(`<p>Todos os campos devem ser preenchidos!</p>`)
+        }
+
         const resposta = await instance.post('/usuario/recados/', {
             accessToken,
-            titulo,
-            descricao
+            titulo: dados.titulo,
+            descricao: dados.descricao
         }, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             }
         })
+
         carregarRecados()
+        return true
     } catch (error) {
-        console.log(error)
-        location.href = 'http://127.0.0.1:5500/index.html'
+        console.log(error.response)
+        return false
     }
 }
 
@@ -160,7 +185,21 @@ async function carregarRecados() {
         })
     } catch (error) {
         console.log(error)
-        location.href = 'http://127.0.0.1:5500/index.html'
     }
 }
 
+
+const containerFeedbck = document.getElementById('container-feedback')
+
+function criarAlerta(mensagem, tipo) {
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <div class="alert alert-${tipo} alert-success alert-dismissible" role="alert">
+       <div>${mensagem}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    `;
+
+    containerFeedbck.append(div)
+
+}
