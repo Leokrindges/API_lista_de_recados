@@ -1,6 +1,7 @@
 
 const containerUsuarios = document.getElementById('usuarios')
 const containerBotoes = document.getElementById('botoes')
+const containerFeedbck = document.getElementById('container-feedback')
 let pagina = 1
 let quantidadeDePaginas
 
@@ -19,7 +20,7 @@ capturaDados.addEventListener('submit', async (evento) => {
   const email = evento.target.email.value
   const senha = evento.target.senha.value
 
-  senhasDiferentes.innerHTML = ""
+  containerFeedbck.innerHTML = ""
 
   const dados = {
     nome,
@@ -38,8 +39,8 @@ async function criarUsuario(dados) {
     criarAlerta(`<span>Senhas não são iguais!</span>`)
   }
 
-  if (!dados.nome || !dados.email || !dados.senha || !dados.confirmarSenha) {
-    senhasDiferentes.innerHTML += `<p>Todos os campos devem ser preenchidos!</p>`
+  if (!dados.nome || !dados.email || !dados.senha ) {
+    containerFeedbck.innerHTML += `<p>Todos os campos devem ser preenchidos!</p>`
   }
 
   try {
@@ -120,8 +121,6 @@ async function carregarUsuarios() {
 carregamentoInicialUsuarios()
 
 //CRIO UM ALERT
-const containerFeedbck = document.getElementById('container-feedback')
-
 function criarAlerta(mensagem, tipo) {
   const div = document.createElement('div');
   div.innerHTML = `
